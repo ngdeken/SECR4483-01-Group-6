@@ -6,6 +6,7 @@ import InputLabel from '@/Components/InputLabel';
 import PrimaryButton from '@/Components/PrimaryButton';
 import TextInput from '@/Components/TextInput';
 import { Head, Link, useForm } from '@inertiajs/react';
+import "./login.css";
 
 export default function Login({ status, canResetPassword }) {
     const { data, setData, post, processing, errors, reset } = useForm({
@@ -75,6 +76,15 @@ export default function Login({ status, canResetPassword }) {
                         />
                         <span className="ms-2 text-sm text-gray-600">Remember me</span>
                     </label>
+                </div>
+
+                <div className="flex items-center justify-left mt-4">
+                    <Link
+                        href={route('register')}
+                        className="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:focus:ring-offset-gray-800"
+                    >
+                        Create an account
+                    </Link>
                 </div>
 
                 <div className="flex items-center justify-end mt-4">

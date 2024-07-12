@@ -15,6 +15,11 @@ return Application::configure(basePath: dirname(__DIR__))
             \App\Http\Middleware\HandleInertiaRequests::class,
             \Illuminate\Http\Middleware\AddLinkHeadersForPreloadedAssets::class,
         ]);
+        $middleware->alias([
+            'admin' => \App\Http\Middleware\Admin::class,
+            'staff' => \App\Http\Middleware\Staff::class,
+            'customer' => \App\Http\Middleware\Customer::class,
+        ]);
 
         //
     })

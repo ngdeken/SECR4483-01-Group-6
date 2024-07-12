@@ -6,6 +6,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Auth\Passwords\CanResetPassword;
 
 class User extends Authenticatable
 {
@@ -20,6 +21,8 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'role',
+        'gender'
     ];
 
     /**
@@ -44,4 +47,22 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+    public function isAdmin()
+    {
+        return $this->role === '1';
+    }
+
+    public function isStaff()
+    {
+        return $this->role === '2';
+    }
+
+    public function isCustomer()
+    {
+        return $this->role === '3';
+    }
+
+
+  
 }
