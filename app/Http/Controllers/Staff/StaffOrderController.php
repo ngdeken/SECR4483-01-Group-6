@@ -12,7 +12,7 @@ use App\Http\Resources\ApplianceResource;
 use App\Http\Resources\OrderResource;
 use App\Http\Requests\UpdateOrderRequest;
 
-class StaffApplianceController extends Controller
+class StaffOrderController extends Controller
 {
     public function index(Request $request)
     {
@@ -30,7 +30,7 @@ class StaffApplianceController extends Controller
 
         $orders = $query->orderBy($sortField, $sortDirection)->paginate(10)->onEachSide(1)->withQueryString();
 
-        return Inertia::render('Staff/StaffAppliance', [
+        return Inertia::render('Staff/StaffOrder', [
             "orders" => OrderResource::collection($orders),
             'queryParams' => request()->query() ?: null,
             'success' => session('success'),
@@ -39,7 +39,7 @@ class StaffApplianceController extends Controller
 
     public function edit(Order $order)
     {
-        return Inertia::render('Staff/StaffApplianceEdit', [
+        return Inertia::render('Staff/StaffOrderEdit', [
             'order' => new OrderResource($order),
         ]);
     }
@@ -50,8 +50,8 @@ class StaffApplianceController extends Controller
         $data['updated_by'] = Auth::id();
         $order->update($data);
 
-        return to_route('staff.appliance')
-            ->with('success', "Registration \"$order->status\" was updated");
+        return to_route('staff.orders.index')
+            ->with('success', "Order \"$order->status\" was updated");
     }
 
 
@@ -60,7 +60,7 @@ class StaffApplianceController extends Controller
         $orderID = $order->id;
         $order->delete();
         
-        return to_route('staff.appliance')
-            ->with('success', "Appliance \"$orderID\" was deleted");
+        return to_route('staff.orders.index')
+            ->with('success', "Order \"$orderID\" was deleted");
     }
 }

@@ -12,9 +12,7 @@ const Sidebar = ({auth, user}) => {
             <nav className="sidebar-nav">
                 <ul>
                     <li><a href={route('staff.index')}>Home</a></li>
-                    <li><a href={route('staff.report')}>Manage Order</a></li>
-                    <li><a href={route('staff.appliance')}>Manage Menu</a></li>
-                    
+                    <li><a href={route('staff.orders.index')}>Manage Order</a></li>
                 </ul>
             </nav>
             <div className="sidebar-footer">

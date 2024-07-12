@@ -1,17 +1,17 @@
 <?php
 
-namespace App\Http\Controllers\Student;
+namespace App\Http\Controllers\Customer;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Inertia\Inertia;
 use Illuminate\Support\Facades\Auth;
-use App\Models\Appliance;
+use App\Models\Pizza;
 use App\Models\Order;
-use App\Http\Resources\ApplianceResource;
+use App\Http\Resources\PizzaResource;
 use App\Http\Resources\OrderResource;
 
-class StudentApplianceController extends Controller
+class CustomerOrderController extends Controller
 {
     public function index(Request $request)
     {
@@ -29,7 +29,7 @@ class StudentApplianceController extends Controller
 
         $orders = $query->orderBy($sortField, $sortDirection)->paginate(10)->onEachSide(1)->withQueryString();
 
-        return Inertia::render('Student/StudentAppliance', [
+        return Inertia::render('Customer/CustomerOrderView', [
             "orders" => OrderResource::collection($orders),
             'queryParams' => request()->query() ?: null,
             'success' => session('success'),
@@ -38,8 +38,8 @@ class StudentApplianceController extends Controller
 
     public function create()
     {
-        $appliances = Order::all();
-        return Inertia::render('Student/StudentApplianceCreate', ['appliances' => $appliances]);
+        $pizzas = Pizza::all();
+        return Inertia::render('Customer/CustomerOrder', ['pizzas' => $pizzas]);
     }
 
     public function store(Request $request)
@@ -51,34 +51,32 @@ class StudentApplianceController extends Controller
         $request->validate([
             'quantities' => 'required|array',
             'quantities.*' => 'integer|min:0',
-            'block' => 'required|string|max:255',
-            'room' => 'required|string|max:255',
+            'address' => 'required|string|max:255',
         ]);
 
         $totalCost = 0;
 
-        foreach ($quantities as $applianceId => $quantity) {
+        foreach ($quantities as $pizzaId => $quantity) {
             if ($quantity > 0) {
-                $appliance = Appliance::find($applianceId);
-                if ($appliance) {
-                    // Calculate the total cost for this appliance
-                    $cost = $appliance->price * $quantity;
+                $pizza = Pizza::find($pizzaId);
+                if ($pizza) {
+
+                    $cost = $pizza->price * $quantity;
                     $totalCost += $cost;
 
-                    // Store the appliance registration
+
                     Order::create([
                         'userID' => $user->id,
-                        'applianceID' => $applianceId,
+                        'pizzaID' => $pizzaId,
                         'quantity' => $quantity,
                         'price' => $cost,
-                        'block' => $request->input('block'),
-                        'room' => $request->input('room'),
+                        'address' => $request->input('address'),
                         'status' => $request->input('status'),
                     ]);
                 }
             }
         }
 
-        return redirect()->route('student.appliance')->with('success', 'Appliance registrations submitted successfully.');
+        return redirect()->route('customer.orders.index')->with('success', 'Order submitted successfully.');
     }
 }

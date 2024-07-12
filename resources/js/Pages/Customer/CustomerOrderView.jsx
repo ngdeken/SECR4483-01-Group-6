@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import Sidebar from '../../Components/StaffSidebar';
+import Sidebar from '../../Components/CustomerSidebar';
 import { Head, Link, router, useForm } from '@inertiajs/react';
 import Pagination from "@/Components/Pagination";
 import {
@@ -11,7 +11,7 @@ import TextInput from "@/Components/TextInput";
 import TableHeading from "@/Components/TableHeading";
 import '../../../css/StudentReport.css';
 
-const StaffOrder = ({ auth, orders, queryParams = null, success }) => {
+const CustomerOrderView = ({ auth, orders, queryParams = null, success }) => {
     queryParams = queryParams || {};
     const searchFieldChanged = (name, value) => {
         if (value) {
@@ -20,7 +20,10 @@ const StaffOrder = ({ auth, orders, queryParams = null, success }) => {
         delete queryParams[name];
         }
 
-        router.get(route("staff.orders.index"), queryParams);
+        router.get(route("customer.orders.index"), queryParams);
+        /*const url = new URL(route("student.appliance"), window.location.origin);
+        url.protocol = 'https:';
+        router.get(url.toString(), queryParams);*/
     };
 
     const onKeyPress = (name, e) => {
@@ -40,22 +43,19 @@ const StaffOrder = ({ auth, orders, queryParams = null, success }) => {
       queryParams.sort_field = name;
       queryParams.sort_direction = "asc";
       }
-      router.get(route("staff.orders.index"), queryParams);
+      router.get(route("customer.orders.index"), queryParams);
+     /* const url = new URL(route("student.appliance"), window.location.origin);
+      url.protocol = 'https:';
+      router.get(url.toString(), queryParams);*/
     };
-
-    const deleteReport = (order) => {
-        if (!window.confirm("Are you sure you want to delete the registration?")) {
-          return;
-        }
-        router.delete(route("staff.orders.destroy", order.id));
-      };
 
     return (
         <div className="app-container">
             <Sidebar user={auth.user}/>
             <div className="damage-report-form-container">
                 <header className="form-header">
-                    <h1>Manage Orders</h1>
+                    <h1>View Order</h1>
+                    <a href={route("customer.orders.create")} className="view-report-link">Make order</a>
                 </header>
                 <table>
                     <thead>
@@ -82,7 +82,7 @@ const StaffOrder = ({ auth, orders, queryParams = null, success }) => {
                             sort_direction={queryParams.sort_direction}
                             sortChanged={sortChanged}
                         >
-                            Customer
+                            User
                         </TableHeading>
                         <TableHeading
                             name="block"
@@ -93,12 +93,12 @@ const StaffOrder = ({ auth, orders, queryParams = null, success }) => {
                             Address
                         </TableHeading>
                         <TableHeading
-                            name="applianceID"
+                            name="pizzaID"
                             sort_field={queryParams.sort_field}
                             sort_direction={queryParams.sort_direction}
                             sortChanged={sortChanged}
                         >
-                            Order
+                            Pizza
                         </TableHeading>
                             <th>Quantity</th>
                             <th>Price</th>
@@ -150,21 +150,6 @@ const StaffOrder = ({ auth, orders, queryParams = null, success }) => {
                                         {REPORT_STATUS_TEXT_MAP[order.status]}
                                     </span>
                                 </td>
-                                <td className="px-3 py-2 text-nowrap">
-                                <Link
-                                    href={route("staff.orders.edit", order.id)}
-                                    className="font-medium text-blue-600 dark:text-blue-500 hover:underline mx-1"
-                                >
-                                    Edit
-                                </Link>
-                                
-                                <button
-                                    onClick={(e) => deleteReport(order)}
-                                    className="font-medium text-red-600 dark:text-red-500 hover:underline mx-1"
-                                >
-                                    Delete
-                                </button>
-                                </td>
                             </tr>
                         ))}
                     </tbody>
@@ -175,4 +160,4 @@ const StaffOrder = ({ auth, orders, queryParams = null, success }) => {
     );
 };
 
-export default StaffOrder;
+export default CustomerOrderView;

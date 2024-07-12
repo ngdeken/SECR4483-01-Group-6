@@ -11,15 +11,14 @@ const Sidebar = ({auth, user, student}) => {
             </div>
             <nav className="sidebar-nav">
                 <ul>
-                    <li><a href={route('student.index')}>Home</a></li>
-                    <li><a href={route('student.report')}>Make Order</a></li>
-                    <li><a href={route('student.quota')}>View Menu</a></li>
+                    <li><a href={route('customer.index')}>Home</a></li>
+                    <li><a href={route('customer.orders.create')}>Make Order</a></li>
                     
                 </ul>
             </nav>
             <div className="sidebar-footer">
                 <Link href={route('logout')} method="post" as="button">Logout</Link>
-                <p>Student</p>
+                <p>Customer</p>
                 <p>{user.name}</p>
             </div>
         </div>

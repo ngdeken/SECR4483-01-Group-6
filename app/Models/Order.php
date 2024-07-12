@@ -11,11 +11,10 @@ class Order extends Model
     public $table = 'orders';
     protected $fillable = [
         'id',
-        'applianceID',
+        'pizzaID',
         'quantity',
         'price',
-        'block',
-        'room',
+        'address',
         'status',
         'userID',
     ];
@@ -37,7 +36,7 @@ class Order extends Model
     
     public function order()
     {
-        return $this->belongsTo(Appliance::class, 'applianceID', 'id');
+        return $this->belongsTo(Pizza::class, 'pizzaID', 'id');
     }
 }
 

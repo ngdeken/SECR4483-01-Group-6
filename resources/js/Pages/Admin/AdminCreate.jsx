@@ -40,7 +40,11 @@ const AdminCreate = ({ auth }) => {
                 </label>
                 <label>
                     4. Role
-                    <input type="text" name="role" value={data.role} onChange={(e) => setData("role", e.target.value)} />
+                    <select name="role" value={data.role} onChange={(e) => setData("role", e.target.value)}>
+                        <option value="1">Admin</option>
+                        <option value="2">Staff</option>
+                        <option value="3">Customer</option>
+                    </select>
                 </label>
                 <button type="submit">Submit</button>
             </form>

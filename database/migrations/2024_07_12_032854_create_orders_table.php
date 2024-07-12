@@ -17,6 +17,7 @@ return new class extends Migration
             $table->foreign('pizzaID')->references('id')->on('pizzas');
             $table->integer('quantity');
             $table->integer('price');
+            $table->string('address');
             $table->unsignedBigInteger('userID');
             $table->foreign('userID')->references('id')->on('users');
             $table->string('status')->default('pending'); //Pending //Completed //In Progress

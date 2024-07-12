@@ -6,6 +6,10 @@ use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 use App\Http\Controllers\Admin\AdminDashboardController;
 use App\Http\Controllers\Admin\AdminUserController;
+use App\Http\Controllers\Staff\StaffDashboardController;
+use App\Http\Controllers\Staff\StaffOrderController;
+use App\Http\Controllers\Customer\CustomerDashboardController;
+use App\Http\Controllers\Customer\CustomerOrderController;
 
 /*Route::get('/', function () {
     return Inertia::render('Welcome', [
@@ -19,9 +23,6 @@ use App\Http\Controllers\Admin\AdminUserController;
 Route::redirect('/', '/dashboard');
 
 Route::get('/dashboard', function () {
-    if (auth()->user()->isAdmin()) {
-        return redirect()->route('admin.index');
-    }
     return Inertia::render('Dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
@@ -39,6 +40,21 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::get('admin/user/{user}', [AdminUserController::class, 'edit'])->name('admin.user.edit');
     Route::put('admin/user/{user}', [AdminUserController::class, 'update'])->name('admin.user.update');
     Route::delete('admin/user/{user}', [AdminUserController::class, 'destroy'])->name('admin.user.destroy');
+});
+
+Route::middleware(['auth', 'staff'])->group(function () {
+    Route::get('staff/dashboard', [StaffDashboardController::class, 'index'])->name('staff.index');
+    Route::get('staff/orders', [StaffOrderController::class, 'index'])->name('staff.orders.index');
+    Route::get('staff/orders/{order}', [StaffOrderController::class, 'edit'])->name('staff.orders.edit');
+    Route::put('staff/orders/{order}', [StaffOrderController::class, 'update'])->name('staff.orders.update');
+    Route::delete('staff/orders/{order}', [StaffOrderController::class, 'destroy'])->name('staff.orders.destroy');
+});
+
+Route::middleware(['auth', 'customer'])->group(function () {
+    Route::get('customer/dashboard', [CustomerDashboardController::class, 'index'])->name('customer.index');
+    Route::get('customer/orders', [CustomerOrderController::class, 'index'])->name('customer.orders.index');
+    Route::get('customer/orders/create', [CustomerOrderController::class, 'create'])->name('customer.orders.create');
+    Route::post('customer/orders/create', [CustomerOrderController::class, 'store'])->name('customer.orders.store');
 });
 
 require __DIR__.'/auth.php';
