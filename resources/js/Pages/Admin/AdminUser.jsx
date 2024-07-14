@@ -93,7 +93,7 @@ const AdminUser = ({ auth, users, queryParams = null, success }) => {
                             sort_direction={queryParams.sort_direction}
                             sortChanged={sortChanged}
                         >
-                            Role (1=Admin, 2=Staff, 3=Student)
+                            Role (1=Admin, 2=Staff, 3=Customer)
                         </TableHeading>
                         <TableHeading
                             name="created_at"
