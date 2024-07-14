@@ -19,6 +19,7 @@ return Application::configure(basePath: dirname(__DIR__))
             'admin' => \App\Http\Middleware\Admin::class,
             'staff' => \App\Http\Middleware\Staff::class,
             'customer' => \App\Http\Middleware\Customer::class,
+            \App\Http\Middleware\ForceHttps::class,
         ]);
 
         //
